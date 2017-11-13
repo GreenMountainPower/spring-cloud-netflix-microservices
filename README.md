@@ -57,7 +57,7 @@ The module `eureka-server` startsup an instance of a Eureka Registry. This is ac
 			<artifactId>spring-cloud-starter-eureka-server</artifactId>
 		</dependency>
 ```
-and having the `@EnableEurekaServer` annotaion on the spring configuration class, as below:
+and having the `@EnableEurekaServer` annotaion on the Spring configuration class, as below:
 
 ```bash
 @SpringBootApplication
@@ -80,3 +80,34 @@ eureka:
       waitTimeInMsWhenSyncEmpty: 0
 ```
 
+## Setting up Eureka Client(s)
+All the clients are identified by the Eureka Server by the property `spring.application.name` in the `src/main/resources/bootstrap.yml` file. The modules `bus-service-client`, `train-service-client`, and `zuul-server` are set up as Eureka Clients. To be identifiable as a client, simply include the dependency:
+```bash
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+```
+
+and mark the Spring configuration class with the annotation `@EnableEurekaClient`:
+```bash
+@SpringBootApplication
+@EnableEurekaClient
+public class BusClientApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BusClientApplication.class, args);
+	}
+}
+```
+
+The `server.port` property for the "client" modules are set to 0 to facilitate starting up multiple instances. Bening able to run multiple instances of a service opens up the gateway for setting up Load Balancing. To enable client side load balancing, the below dependency is added:
+```bash
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-ribbon</artifactId>
+		</dependency>
+```
+Netflix has a Eureka-aware client-side load-balancing client called [Ribbon](https://github.com/Netflix/ribbon) that Spring Cloud integrates extensively. Ribbon is a client library with built-in software load balancers.
+
+To demonstrate, service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. This integration makes it simple to create smart, Eureka-aware REST clients that uses Ribbon for client-side load-balacing to pick an available service instance.
