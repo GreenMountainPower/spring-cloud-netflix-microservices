@@ -1,0 +1,5 @@
+schedule: 
+  routes: 
+    - Grand Central Station (8:00) -> Stamford Station (9:15) -> Hardford Station (10:30)
+    - White Plains Station (8:00) -> Stamford Station (9:30) -> Grand Central (11:30)
+    - Penn Station (8:00) -> Secacus (9:15) -> Jersey City Station (10:30) -> Newark Station (12:00)

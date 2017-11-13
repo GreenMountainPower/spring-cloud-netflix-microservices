@@ -1,0 +1,5 @@
+schedule: 
+  routes: 
+    - Lormier-Est (8:00) -> Ridgewood (8:15) -> Mont-Royal (8:30) -> Colomb (8:45) -> Amherst (9:00)
+    - Catherine (8:00) -> Graham (8:15) -> Decaire (8:30) -> Baubien (8:45) -> Chabanel (9:00)
+    - Commerce (8:00) -> Notre-Dame (8:15) -> Sherbrooke (8:30) -> Angus (8:45) -> Mercier-Est (9:00)  
