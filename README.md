@@ -37,11 +37,46 @@ mvn spring-boot:run
 
 Now you should have all the services up and running. The `bus-service-client` and `train-service-client` modules are set up to be able to run multiple instannces of each. To do that, all you'd have to do is, open a new terminal, `cd` into the specific module and run `mvn spring-boot:run`
 
+Once you have all the servers up and running, point the browser to `http://localhost:8761/` to monitor the registry/dashboard. 
+
 Use the PAW file available under `/paw` directory to execute the service requests.
 
 # Documentation
 As mentioned earler, the following are the concepts and patterns used in this project:
 * [Netflix Eureka](https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance)
-	* [Spring Netflix Service Discovery and Registration](https://spring.io/blog/2015/01/20/microservice-registration-and-discovery-with-spring-cloud-and-netflix-s-eureka)
+	* [Spring Netflix Service Discovery and Registration with Load Balancing](https://spring.io/blog/2015/01/20/microservice-registration-and-discovery-with-spring-cloud-and-netflix-s-eureka)
 * [Spring Cloud Config Server](https://cloud.spring.io/spring-cloud-config/spring-cloud-config.html)
 * [Spring Netflix Zuul Intelligent Routing](https://spring.io/guides/gs/routing-and-filtering)
+
+## Setting up Eureka Server
+
+The module `eureka-server` startsup an instance of a Eureka Registry. This is achieved by including the below dependency in the `pom.xml`:
+```bash
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka-server</artifactId>
+		</dependency>
+```
+and having the `@EnableEurekaServer` annotaion on the spring configuration class, as below:
+
+```bash
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EurekaServerApplication.class, args);
+	}
+}
+```
+
+The below entries in the `src/main/resources/application.yml` simply tells this instance to not register itself with the Eureka instance it finds, because that instance is.. itself.
+```bash
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+```
+
