@@ -19,3 +19,18 @@ git clone https://github.com/GreenMountainPower/spring-cloud-netflix-microservic
 ```
 
 After cloning the repository, import the project into the IDE.
+
+## Running & Testing
+
+To run the application, all the modules need to compiled and run. There are 5 modules in this project:
+* bus-client-service
+* train-client-service
+* zuul-service
+* config-service
+* eureka-server
+
+`cd` into each of the above modules and run the following commands"
+```bash
+mvn clean package
+mvn spring-boot:run
+```
