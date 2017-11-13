@@ -23,14 +23,21 @@ After cloning the repository, import the project into the IDE.
 ## Running & Testing
 
 To run the application, all the modules need to compiled and run. There are 5 modules in this project:
-* bus-client-service
-* train-client-service
-* zuul-service
-* config-service
 * eureka-server
+* config-service
+* zuul-service
+* bus-service-client
+* train-service-
+* train-service-client
 
-`cd` into each of the above modules and run the following commands"
+`cd` into each of the above modules (in the above order) and run the following commands:
 ```bash
 mvn clean package
 mvn spring-boot:run
 ```
+
+Now you should have all the services up and running. The `bus-service-client` and `train-service-client` modules are set up to be able to run multiple instannces of each. To do that, all you'd have to do is, open a new terminal, `cd` the specific module and run `mvn spring-boot:run`
+
+Use the PAW file available under `/paw` directory to execute the service requests.
+
+
