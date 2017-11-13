@@ -101,7 +101,7 @@ public class BusClientApplication {
 }
 ```
 
-The `server.port` property for the "client" modules are set to 0 to facilitate starting up multiple instances. The `src/main/resources/application.yml` file also has the below entry 
+The `src/main/resources/application.yml` file also has the below entry 
 
 ```bash
 eureka:
@@ -109,8 +109,9 @@ eureka:
     serviceUrl:
       defaultZone: ${eureka-server.uri:http://127.0.0.1:8761}/eureka/
 ```
+which tells this client where to find the Eureka Server Retistry to register at. If there are multiple servers to register at, the above property can be provided with multiple comma separated uri's.
 
-Bening able to run multiple instances of a service opens up the gateway for setting up Load Balancing. To enable client side load balancing, the below dependency is added:
+The `server.port` property for the "client" modules are set to 0 to facilitate starting up multiple instances. Bening able to run multiple instances of a service opens up the gateway for setting up Load Balancing. To enable client side load balancing, the below dependency is added:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -119,7 +120,15 @@ Bening able to run multiple instances of a service opens up the gateway for sett
 ```
 Netflix has a Eureka-aware client-side load-balancing client called [Ribbon](https://github.com/Netflix/ribbon) that Spring Cloud integrates extensively. Ribbon is a client library with built-in software load balancers.
 
-To demonstrate, service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. Just add `@EnableFeignClients` to the Spring configuration class above and create and interface in `bus-service-client` module like so:
+To demonstrate, service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. Just add the following dependency:
+```bash
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+		</dependency>
+```
+
+and add `@EnableFeignClients` to the Spring configuration class above and create and interface in `bus-service-client` module like so:
 
 ```bash
 @FeignClient("train-service-client")
@@ -131,3 +140,32 @@ public interface TrainFeignClient {
 ```
 
 This integration makes it simple to create smart, Eureka-aware REST clients that uses Ribbon for client-side load-balacing to pick an available service instance.
+
+
+## Spring Neflix Zuul Routing
+Sprign Netlix Zuul Routing is used to provide a unified interface to the consumers of the system. If ther are services that are split into small composable apps, this shouldn’t be visible to users or result in substantial development effort.
+
+To solve this problem, Netflix created and open-sourced its Zuul proxy server. [Zuul](https://github.com/Netflix/zuul) is an edge service that proxies requests to multiple backing services. It provides a unified “front door” to the system, which allows a browser, mobile app, or other user interface to consume services from multiple hosts without managing cross-origin resource sharing (CORS) and authentication for each one.
+
+To start a Zuul server, create a module with dependency:
+```bash
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zuul</artifactId>
+		</dependency>
+``` 
+
+Add the annotation `@EnableZuulProxy` to the Spring configuration class like so:
+```bash
+@SpringBootApplication
+@EnableZuulProxy
+@EnableAutoConfiguration
+public class ZuulServerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ZuulServerApplication.class, args);
+	}
+}
+```
+
+Refer to the `src/main/resources/bootstrap.yml` file for various properties related to controlling the request timeouts.
