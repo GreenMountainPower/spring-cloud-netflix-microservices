@@ -1,0 +1,18 @@
+server:
+  port: 8888
+
+management:
+  context-path: /admin
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+#          uri: file:/Users/skilaru/work/gmp/code/eureka/configs
+          uri: https://github.com/kkilaru/configs
+          username: kkilaru
+          password: "Gmp1000"
+      discovery:
+        enabled: true

@@ -1,0 +1,13 @@
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka-server.uri:http://127.0.0.1:8761}/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  security:
+    enabled: false

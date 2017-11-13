@@ -1,0 +1,35 @@
+server:
+  port: 9000
+  connection-timeout: 60000
+
+management:
+  port: 9000
+
+endpoints:
+  restart:
+    enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka-server.uri:http://127.0.0.1:8761}/eureka/
+
+# timeouts for /refresh endpoint for refreshing configs
+hystrix:
+  command:
+    bus-service-client:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    train-service-client:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
