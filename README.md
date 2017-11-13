@@ -101,7 +101,16 @@ public class BusClientApplication {
 }
 ```
 
-The `server.port` property for the "client" modules are set to 0 to facilitate starting up multiple instances. Bening able to run multiple instances of a service opens up the gateway for setting up Load Balancing. To enable client side load balancing, the below dependency is added:
+The `server.port` property for the "client" modules are set to 0 to facilitate starting up multiple instances. The `src/main/resources/application.yml` file also has the below entry 
+
+```bash
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka-server.uri:http://127.0.0.1:8761}/eureka/
+```
+
+Bening able to run multiple instances of a service opens up the gateway for setting up Load Balancing. To enable client side load balancing, the below dependency is added:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -110,4 +119,15 @@ The `server.port` property for the "client" modules are set to 0 to facilitate s
 ```
 Netflix has a Eureka-aware client-side load-balancing client called [Ribbon](https://github.com/Netflix/ribbon) that Spring Cloud integrates extensively. Ribbon is a client library with built-in software load balancers.
 
-To demonstrate, service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. This integration makes it simple to create smart, Eureka-aware REST clients that uses Ribbon for client-side load-balacing to pick an available service instance.
+To demonstrate, service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. Just add `@EnableFeignClients` to the Spring configuration class above and create and interface in `bus-service-client` module like so:
+
+```bash
+@FeignClient("train-service-client")
+public interface TrainFeignClient {
+
+    @RequestMapping(value = "/train/{routeId}")
+    String getRoutes(@PathVariable("routeId") Integer routeId);
+}
+```
+
+This integration makes it simple to create smart, Eureka-aware REST clients that uses Ribbon for client-side load-balacing to pick an available service instance.
