@@ -143,7 +143,7 @@ public interface TrainFeignClient {
 This integration makes it simple to create smart, Eureka-aware REST clients that uses Ribbon for client-side load-balacing to pick an available service instance.
 
 
-## Spring Neflix Zuul Routing
+## Spring Neftlix Zuul Routing
 Sprign Netlix Zuul Routing is used to provide a unified interface to the consumers of the system. If ther are services that are split into small composable apps, this shouldn’t be visible to users or result in substantial development effort.
 
 To solve this problem, Netflix created and open-sourced its Zuul proxy server. [Zuul](https://github.com/Netflix/zuul) is an edge service that proxies requests to multiple backing services. It provides a unified “front door” to the system, which allows a browser, mobile app, or other user interface to consume services from multiple hosts without managing cross-origin resource sharing (CORS) and authentication for each one.
