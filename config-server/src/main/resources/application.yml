@@ -12,5 +12,3 @@ spring:
         git:
           uri: https://github.com/GreenMountainPower/spring-cloud-netflix-microservices
           search-paths: configs
-      discovery:
-        enabled: true
