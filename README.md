@@ -1,10 +1,10 @@
 Spring Cloud Netflix Microservices
 ============
-This project provides a simple and basic example implementation of Spring Boot Microservices with Spring Cloud and Netflix Open Source Software components. With a few simple annotations we can quickly enable and conifgure common patterns in our applications for building distributed systems. The patterns provided in this project include Service Discovery (Eureka), Intelligent Routing (Zuul) and Client Side Load Balancing (Ribbon). This project also stands up and consumes from the Spring Cloud Config Server.
+This project provides a simple and basic example implementation of Spring Boot Microservices with Spring Cloud and Netflix Open Source Software components. With a few simple annotations we can quickly enable and configure common patterns in our applications for building distributed systems. The patterns provided in this project include Service Discovery (Eureka), Intelligent Routing (Zuul) and Client Side Load Balancing (Ribbon). This project also stands up and consumes from the Spring Cloud Config Server.
 
 ## Requirements
 
-* A favourite text editor or IDE
+* A favorite text editor or IDE
 * [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or later
 * [Maven 3.0+](https://maven.apache.org/download.cgi)
 * You can also import the code straight into you IDE:
@@ -35,14 +35,14 @@ mvn clean package
 mvn spring-boot:run
 ```
 
-Now you should have all the services up and running. The `bus-service-client` and `train-service-client` modules are set up to be able to run multiple instannces of each. To do that, all you'd have to do is, open a new terminal, `cd` into the specific module and run `mvn spring-boot:run`
+Now you should have all the services up and running. The `bus-service-client` and `train-service-client` modules are set up to be able to run multiple instances of each. To do that, all you'd have to do is, open a new terminal, `cd` into the specific module and run `mvn spring-boot:run`
 
 Once you have all the servers up and running, point the browser to `http://localhost:8761/` to monitor the registry/dashboard. 
 
 Use the PAW file available under `/paw` directory to execute the service requests.
 
 # Documentation
-As mentioned earler, the following are the concepts and patterns used in this project:
+As mentioned earlier, the following are the concepts and patterns used in this project:
 * [Netflix Eureka](https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance)
 	* [Spring Netflix Service Discovery and Registration with Load Balancing](https://spring.io/blog/2015/01/20/microservice-registration-and-discovery-with-spring-cloud-and-netflix-s-eureka)
 * [Spring Netflix Zuul Intelligent Routing](https://spring.io/guides/gs/routing-and-filtering)
@@ -58,7 +58,7 @@ The module `eureka-server` startsup an instance of a Eureka Registry. This is ac
 			<artifactId>spring-cloud-starter-eureka-server</artifactId>
 		</dependency>
 ```
-and having the `@EnableEurekaServer` annotaion on the Spring configuration class, as below:
+and having the `@EnableEurekaServer` annotation on the Spring configuration class, as below:
 
 ```bash
 @SpringBootApplication
@@ -110,9 +110,9 @@ eureka:
     serviceUrl:
       defaultZone: ${eureka-server.uri:http://127.0.0.1:8761}/eureka/
 ```
-which tells this client where to find the Eureka Server Retistry to register at. If there are multiple servers to register at, the above property can be provided with multiple comma separated uri's.
+which tells this client where to find the Eureka Server Registry to register at. If there are multiple servers to register at, the above property can be provided with multiple comma separated uri's.
 
-The `server.port` property for the "client" modules are set to 0 to facilitate starting up multiple instances. Bening able to run multiple instances of a service opens up the gateway for setting up Load Balancing. To enable client side load balancing, the below dependency is added:
+The `server.port` property for the "client" modules are set to 0 to facilitate starting up multiple instances. Being able to run multiple instances of a service opens up the gateway for setting up Load Balancing. To enable client side load balancing, the below dependency is added:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -121,7 +121,7 @@ The `server.port` property for the "client" modules are set to 0 to facilitate s
 ```
 Netflix has a Eureka-aware client-side load-balancing client called [Ribbon](https://github.com/Netflix/ribbon) that Spring Cloud integrates extensively. Ribbon is a client library with built-in software load balancers.
 
-To demonstrate service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. To enable Fiegn, the below dependency is added:
+To demonstrate service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. To enable Feign, the below dependency is added:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -129,7 +129,7 @@ To demonstrate service to service communication, in this case, between the `bus-
 		</dependency>
 ```
 
-and `@EnableFeignClients` annotation is added to the Spring configuration class above. An interace is created in `bus-service-client` module which is used to invoke the a service in `train-service-client`, like so:
+and `@EnableFeignClients` annotation is added to the Spring configuration class above. An interface is created in `bus-service-client` module which is used to invoke the a service in `train-service-client`, like so:
 
 ```bash
 @FeignClient("train-service-client")
@@ -140,11 +140,11 @@ public interface TrainFeignClient {
 }
 ```
 
-This integration makes it simple to create smart, Eureka-aware REST clients that uses Ribbon for client-side load-balacing to pick an available service instance.
+This integration makes it simple to create smart, Eureka-aware REST clients that uses Ribbon for client-side load-balancing to pick an available service instance.
 
 
 ## Spring Netflix Zuul Routing
-Sprign Netlix Zuul Routing is used to provide a unified interface to the consumers of the system. If ther are services that are split into small composable apps, this shouldn’t be visible to users or result in substantial development effort.
+Sprign Netlix Zuul Routing is used to provide a unified interface to the consumers of the system. If there are services that are split into small composable apps, this shouldn’t be visible to users or result in substantial development effort.
 
 To solve this problem, Netflix created and open-sourced its Zuul proxy server. [Zuul](https://github.com/Netflix/zuul) is an edge service that proxies requests to multiple backing services. It provides a unified “front door” to the system, which allows a browser, mobile app, or other user interface to consume services from multiple hosts without managing cross-origin resource sharing (CORS) and authentication for each one.
 
@@ -205,4 +205,4 @@ spring:
     config:
       enabled: true
 ```
-The config files for each of the modules should have the same name as the `spring.application.name` property value and with .yml (or .properties) file extension. For multiple enviornments, the names can be appended with `-` and the environment name. For example, a test profile for `bus-service-client` module will have the config file name as `bus-service-client-test.yml` 
+The config files for each of the modules should have the same name as the `spring.application.name` property value and with .yml (or .properties) file extension. For multiple environments, the names can be appended with `-` and the environment name. For example, a test profile for `bus-service-client` module will have the config file name as `bus-service-client-test.yml` 
