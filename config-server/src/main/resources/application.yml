@@ -10,9 +10,7 @@ spring:
     config:
       server:
         git:
-#          uri: file:/Users/skilaru/work/gmp/code/eureka/configs
-          uri: https://github.com/kkilaru/configs
-          username: kkilaru
-          password: "Gmp1000"
+          uri: https://github.com/GreenMountainPower/spring-cloud-netflix-microservices
+          search-paths: configs
       discovery:
         enabled: true
