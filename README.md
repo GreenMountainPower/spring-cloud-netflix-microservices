@@ -207,7 +207,7 @@ spring:
 ```
 The config files for each of the modules should have the same name as the `spring.application.name` property value and with .yml (or .properties) file extension. For multiple environments, the names can be appended with `-` and the environment name. For example, a test profile for `bus-service-client` module will have the config file name as `bus-service-client-test.yml` 
 
-After uploading the config files to github, they can be accessed via Java based configuration. For example, the properties in `bus-service-client.yml` file can be access in Java by creating a Java pojo class like so:
+After uploading the config files to github, they can be accessed via Java based configuration. For example, the properties in `bus-service-client.yml` file can be accessed in Java by creating a Java pojo class like so:
 ```bash
 @Component
 @ConfigurationProperties
