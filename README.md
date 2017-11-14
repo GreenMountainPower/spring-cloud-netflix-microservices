@@ -182,7 +182,8 @@ public class ConfigserverApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ConfigserverApplication.class, args);
 	}
-}```
+}
+```
 
 Add the following to the `src/main/resources/application.yml` file:
 ```bash
