@@ -197,7 +197,7 @@ spring:
 ```
 This tells the location of the repository on github and the path for the configs inside the repository.
 
-Add this property to the `src/main/resources/bootstrap.yml` to specify that cloud config is enabled"
+Add this property to the `src/main/resources/bootstrap.yml` to specify that cloud config is enabled:
 ```bash
 spring:
   cloud:
