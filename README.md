@@ -243,7 +243,7 @@ and autowiring the above class in any Spring of the managed classes (any class a
  @Autowired private BusClientConfig busClientConfig;
  ```
 
-The annotation `@RefreshScope` on a spring managed bean, enables properties to be [dynamically refreshed](http://cloud.spring.io/spring-cloud-static/docs/1.0.x/spring-cloud.html#_refresh_scope) by sending a `POST` request to `/refresh` endpoint. For example, after pushing the updates to `bus-service-client.yml` file, these updated can be made available by sendign a `POST` reqeust like so:
+The annotation `@RefreshScope` on a spring managed bean, enables properties to be [dynamically refreshed](http://cloud.spring.io/spring-cloud-static/docs/1.0.x/spring-cloud.html#_refresh_scope) by sending a `POST` request to `/refresh` endpoint. For example, after pushing the updates to `bus-service-client.yml` file, these updated can be made available by sendign a `POST` reqeust like so, with out having to restart any of the services:
 ```bash
 curl -X "POST" "http://localhost:9000/api/bus-service/refresh"
 ```
