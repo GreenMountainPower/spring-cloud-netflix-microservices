@@ -169,3 +169,38 @@ public class ZuulServerApplication {
 ```
 
 Refer to the `src/main/resources/bootstrap.yml` file for various properties related to controlling the request timeouts.
+
+## Spring Cloud Config Server
+Spring Cloud Config is Spring’s client/server approach for storing and serving distributed configurations across multiple applications and environments.
+
+The main part of the application is a config class – more specifically a @SpringBootApplication – which pulls in all the required setup through the auto-configure annotation @EnableConfigServer like so:
+```bash
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigserverApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ConfigserverApplication.class, args);
+	}
+}```
+
+Add the following to the `src/main/resources/application.yml` file:
+```bash
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/GreenMountainPower/spring-cloud-netflix-microservices
+          search-paths: configs
+```
+This tells the location of the repository on github and the path for the configs inside the repository.
+
+Add this property to the `src/main/resources/bootstrap.yml` to specify that cloud config is enabled"
+```bash
+spring:
+  cloud:
+    config:
+      enabled: true
+```
+The config files for each of the modules should have the same name as the `spring.application.name` property value and with .yml (or .properties) file extension. For multiple enviornments, the names can be appended with `-` and the environment name. For example, a test profile for `bus-service-client` module will have the config file name as `bus-service-client-test.yml` 
