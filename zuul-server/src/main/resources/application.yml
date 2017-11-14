@@ -13,6 +13,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${eureka-server.uri:http://127.0.0.1:8761}/eureka/
+    healthcheck:
+      enabled: true
 
 # timeouts for /refresh endpoint for refreshing configs
 hystrix:

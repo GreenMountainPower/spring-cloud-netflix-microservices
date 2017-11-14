@@ -5,6 +5,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${eureka-server.uri:http://127.0.0.1:8761}/eureka/
+    eureka-server-connect-timeout-seconds: 30
+    eureka-server-read-timeout-seconds: 30
+    healthcheck:
+      enabled: true
   instance:
     instance-id: ${spring.application.name}:${random.value}
 
