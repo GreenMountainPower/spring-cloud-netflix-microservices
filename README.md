@@ -206,3 +206,40 @@ spring:
       enabled: true
 ```
 The config files for each of the modules should have the same name as the `spring.application.name` property value and with .yml (or .properties) file extension. For multiple environments, the names can be appended with `-` and the environment name. For example, a test profile for `bus-service-client` module will have the config file name as `bus-service-client-test.yml` 
+
+After uploading the config files to github, they can be accessed via Java based configuration. For example, the properties in `bus-service-client.yml` file can be access in Java by creating a Java pojo class like so:
+```bash
+@Component
+@ConfigurationProperties
+@RefreshScope
+public class BusClientConfig {
+
+    private Schedule schedule;
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public static class Schedule {
+        private List<String> routes;
+
+        public List<String> getRoutes() {
+            return routes;
+        }
+
+        public void setRoutes(List<String> routes) {
+            this.routes = routes;
+        }
+    }
+}
+```
+
+and autowiring the above class in any Spring of the managed classes (any class annotated with @Component or @Service or @Repository etc) like so:
+```bash
+ @Autowired private BusClientConfig busClientConfig;
+ ```
+
