@@ -45,8 +45,9 @@ Use the PAW file available under `/paw` directory to execute the service request
 As mentioned earler, the following are the concepts and patterns used in this project:
 * [Netflix Eureka](https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance)
 	* [Spring Netflix Service Discovery and Registration with Load Balancing](https://spring.io/blog/2015/01/20/microservice-registration-and-discovery-with-spring-cloud-and-netflix-s-eureka)
-* [Spring Cloud Config Server](https://cloud.spring.io/spring-cloud-config/spring-cloud-config.html)
 * [Spring Netflix Zuul Intelligent Routing](https://spring.io/guides/gs/routing-and-filtering)
+* [Spring Cloud Config Server](https://cloud.spring.io/spring-cloud-config/spring-cloud-config.html)
+
 
 ## Setting up Eureka Server
 
@@ -81,7 +82,7 @@ eureka:
 ```
 
 ## Setting up Eureka Client(s)
-All the clients are identified by the Eureka Server by the property `spring.application.name` in the `src/main/resources/bootstrap.yml` file. The modules `bus-service-client`, `train-service-client`, and `zuul-server` are set up as Eureka Clients. To be identifiable as a client, simply include the dependency:
+All the clients are identified by the Eureka Server by the property `spring.application.name` in the `src/main/resources/bootstrap.yml` file. The modules `bus-service-client`, `train-service-client`, and `zuul-server` are set up as Eureka Clients. To be identifiable as a client, this dependency is included:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -89,7 +90,7 @@ All the clients are identified by the Eureka Server by the property `spring.appl
 		</dependency>
 ```
 
-and mark the Spring configuration class with the annotation `@EnableEurekaClient`:
+and the Spring configuration class is marked with the annotation `@EnableEurekaClient`:
 ```bash
 @SpringBootApplication
 @EnableEurekaClient
@@ -120,7 +121,7 @@ The `server.port` property for the "client" modules are set to 0 to facilitate s
 ```
 Netflix has a Eureka-aware client-side load-balancing client called [Ribbon](https://github.com/Netflix/ribbon) that Spring Cloud integrates extensively. Ribbon is a client library with built-in software load balancers.
 
-To demonstrate, service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. Just add the following dependency:
+To demonstrate service to service communication, in this case, between the `bus-service-client` and `train-service-client`, Spring Cloud Feign Integration is used. [Feign](https://github.com/Netflix/feign) is a handy project from Netflix that lets you describe a REST API client declaratively with annotations on an interface. To enable Fiegn, the below dependency is added:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -128,7 +129,7 @@ To demonstrate, service to service communication, in this case, between the `bus
 		</dependency>
 ```
 
-and add `@EnableFeignClients` to the Spring configuration class above and create and interface in `bus-service-client` module like so:
+and `@EnableFeignClients` annotation is added to the Spring configuration class above. An interace is created in `bus-service-client` module which is used to invoke the a service in `train-service-client`, like so:
 
 ```bash
 @FeignClient("train-service-client")
@@ -147,7 +148,7 @@ Sprign Netlix Zuul Routing is used to provide a unified interface to the consume
 
 To solve this problem, Netflix created and open-sourced its Zuul proxy server. [Zuul](https://github.com/Netflix/zuul) is an edge service that proxies requests to multiple backing services. It provides a unified “front door” to the system, which allows a browser, mobile app, or other user interface to consume services from multiple hosts without managing cross-origin resource sharing (CORS) and authentication for each one.
 
-To start a Zuul server, create a module with dependency:
+To create a Zuul server, the below dependency is added:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -155,7 +156,7 @@ To start a Zuul server, create a module with dependency:
 		</dependency>
 ``` 
 
-Add the annotation `@EnableZuulProxy` to the Spring configuration class like so:
+The `@EnableZuulProxy` annotation is added to the Spring configuration class like so:
 ```bash
 @SpringBootApplication
 @EnableZuulProxy
@@ -173,7 +174,7 @@ Refer to the `src/main/resources/bootstrap.yml` file for various properties rela
 ## Spring Cloud Config Server
 Spring Cloud Config is Spring’s client/server approach for storing and serving distributed configurations across multiple applications and environments.
 
-The main part of the application is a config class – more specifically a @SpringBootApplication – which pulls in all the required setup through the auto-configure annotation @EnableConfigServer like so:
+The main part of the application is the Spring configuration class – more specifically a class with `@SpringBootApplication` annotation – which pulls in all the required setup through the auto-configure annotation `@EnableConfigServer`, like so:
 ```bash
 @SpringBootApplication
 @EnableConfigServer
@@ -185,7 +186,7 @@ public class ConfigserverApplication {
 }
 ```
 
-Add the following to the `src/main/resources/application.yml` file:
+The below is added to the `src/main/resources/application.yml` file:
 ```bash
 spring:
   cloud:
@@ -197,7 +198,7 @@ spring:
 ```
 This tells the location of the repository on github and the path for the configs inside the repository.
 
-Add this property to the `src/main/resources/bootstrap.yml` to specify that cloud config is enabled:
+The below property is added to the `src/main/resources/bootstrap.yml` to specify that cloud config is enabled:
 ```bash
 spring:
   cloud:
