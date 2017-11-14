@@ -51,7 +51,7 @@ As mentioned earlier, the following are the concepts and patterns used in this p
 
 ## Setting up Eureka Server
 
-The module `eureka-server` startsup an instance of a Eureka Registry. This is achieved by including the below dependency in the `pom.xml`:
+The module `eureka-server` starts up an instance of a Eureka Registry. This is achieved by including the below dependency in the `pom.xml`:
 ```bash
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -144,7 +144,7 @@ This integration makes it simple to create smart, Eureka-aware REST clients that
 
 
 ## Spring Netflix Zuul Routing
-Sprign Netlix Zuul Routing is used to provide a unified interface to the consumers of the system. If there are services that are split into small composable apps, this shouldn’t be visible to users or result in substantial development effort.
+Spring Netflix Zuul Routing is used to provide a unified interface to the consumers of the system. If there are services that are split into small composable apps, this shouldn’t be visible to users or result in substantial development effort.
 
 To solve this problem, Netflix created and open-sourced its Zuul proxy server. [Zuul](https://github.com/Netflix/zuul) is an edge service that proxies requests to multiple backing services. It provides a unified “front door” to the system, which allows a browser, mobile app, or other user interface to consume services from multiple hosts without managing cross-origin resource sharing (CORS) and authentication for each one.
 
