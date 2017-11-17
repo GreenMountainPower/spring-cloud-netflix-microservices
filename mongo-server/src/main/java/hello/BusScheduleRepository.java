@@ -7,5 +7,5 @@ public interface BusScheduleRepository extends MongoRepository<BusSchedule, Stri
 
     public BusSchedule findByStationName(String StationName);
     public List<BusSchedule> findByDepartureTime(String DepartureTime);
-
+    public List<BusSchedule> findByBranchName(String BranchName);
 }
