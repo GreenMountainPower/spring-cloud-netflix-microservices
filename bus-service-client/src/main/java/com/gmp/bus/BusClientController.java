@@ -20,9 +20,14 @@ public class BusClientController {
 
     @Autowired private BusClientConfig busClientConfig;
     @Autowired private TrainFeignClient trainFeignClient;
+	@Autowired
+	private BusScheduleRepository repository;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<String> getAll() {
+        //trying to return JSON from repository here
+        //e.g. return repository.findAll();
+
         return busClientConfig.getSchedule().getRoutes();
     }
 
